@@ -1,75 +1,122 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://kit.fontawesome.com/093708b09e.js" crossorigin="anonymous"></script>
-</head>
-<body>
-    <section>
-        <h1>Connexion</h1>
-        <div class="input-box">
-            <input type="text" id="username" placeholder="Nom d'utilisateur">
-            <i class="fa-solid fa-user"></i>
-        </div>
-        <div class="input-box">
-            <input type="password" id="password" placeholder="Mot de passe">
-            <i class="fa-solid fa-lock"></i>
-        </div>
-        <div class="remember-forgot">
-            <label><input type="checkbox"> Se souvenir de moi</label>
-            <a href="#">Mot de passe oublié ?</a>
-        </div>
-        <button class="login-btn" onclick="authenticateUser()">Se connecter</button>
+/* Importation de la police Google */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-        <!-- Message d'erreur/succès -->
-        <p id="message" class="error-message"></p>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
 
-        <div class="register-link">
-            <p>Pas de compte ? <a href="inscrition.html">Inscription</a></p>
-        </div>
-    </section>
+body {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
 
-    <script>
-        function authenticateUser() {
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
-            const message = document.getElementById("message");
+section {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
 
-            // Efface les messages précédents
-            message.textContent = "";
+h1 {
+    color: #fff;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
 
-            // Récupérer tous les utilisateurs stockés dans le localStorage
-            const users = JSON.parse(localStorage.getItem("users")) || [];
+.input-box {
+    position: relative;
+    margin-bottom: 15px;
+}
 
-            // Chercher un utilisateur correspondant à ces informations
-            const user = users.find(user => user.username === username && user.password === password);
+.input-box input {
+    width: 100%;
+    padding: 10px 15px;
+    padding-left: 40px;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
 
-            if (user) {
-                // Vérifier si l'utilisateur est un administrateur (par exemple avec un nom d'utilisateur spécifique)
-                if (user.username === "admin") {
-                    // Si c'est un administrateur, rediriger vers la page d'administration
-                    message.textContent = "Connexion réussie en tant qu'administrateur !";
-                    message.className = "success-message";
-                    setTimeout(() => {
-                        window.location.href = "admin.html"; // Redirection vers la page d'administration
-                    }, 1000);
-                } else {
-                    // Si c'est un utilisateur normal, rediriger vers son propre tableau de bord
-                    message.textContent = "Connexion réussie !";
-                    message.className = "success-message";
-                    setTimeout(() => {
-                        window.location.href = "dashboard.html"; // Redirection vers le tableau de bord de l'utilisateur
-                    }, 1000);
-                }
-            } else {
-                // Si l'utilisateur n'est pas trouvé, afficher un message d'erreur
-                message.textContent = "Nom d'utilisateur ou mot de passe incorrect.";
-                message.className = "error-message";
-            }
-        }
-    </script>
-</body>
-</html>
+.input-box input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.input-box i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+}
+
+.remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.remember-forgot a {
+    color: #00bcd4;
+    text-decoration: none;
+}
+
+.remember-forgot a:hover {
+    text-decoration: underline;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #00bcd4;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+}
+
+.login-btn:hover {
+    background: #008c9e;
+}
+
+.error-message {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.success-message {
+    color: #4caf50;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.register-link {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #fff;
+}
+
+.register-link a {
+    color: #00bcd4;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
