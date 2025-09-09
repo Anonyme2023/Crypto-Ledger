@@ -1,122 +1,218 @@
-/* Importation de la police Google */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
-* {
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connexion Crypto Promo</title>
+<script src="https://kit.fontawesome.com/093708b09e.js" crossorigin="anonymous"></script>
+<style>
+/* BODY & BACKGROUND */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-
-body {
-    background: linear-gradient(135deg, #0f172a, #1e293b);
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    background: url('https://london-post.co.uk/wp-content/uploads/2024/04/IMG_2136.jpeg') no-repeat center center/cover;
+    overflow: auto;
+}
+body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.3);
+    z-index: 0;
 }
 
-section {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 30px;
-    border-radius: 10px;
+/* CONTAINER */
+.container {
+    position: relative;
+    z-index: 1;
+    background-color: rgba(0,0,0,0.4);
     backdrop-filter: blur(10px);
-    width: 350px;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    max-width: 450px;
+    width: 90%;
+    padding: 40px 25px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeIn 1s ease-in-out;
 }
 
-h1 {
-    color: #fff;
-    font-size: 24px;
+/* HEADER */
+.header h1 { font-size: 30px; font-weight: 700; margin-bottom: 25px; }
+
+/* FORM INPUTS */
+.form-group {
+    position: relative;
+    width: 100%;
     margin-bottom: 20px;
 }
-
-.input-box {
-    position: relative;
-    margin-bottom: 15px;
-}
-
-.input-box input {
+.form-group input {
     width: 100%;
-    padding: 10px 15px;
-    padding-left: 40px;
-    border: none;
-    border-radius: 5px;
-    outline: none;
+    padding: 14px 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.5);
     font-size: 16px;
-    background: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255,255,255,0.1);
     color: #fff;
+    transition: all 0.3s;
 }
-
-.input-box input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+.form-group input::placeholder { color: rgba(255,255,255,0.7); }
+.form-group input:focus {
+    border-color: #fff;
+    box-shadow: 0 0 10px rgba(255,255,255,0.6);
+    outline: none;
 }
+.form-group i { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: #fff; font-size: 18px; }
 
-.input-box i {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #fff;
-}
-
-.remember-forgot {
-    display: flex;
-    justify-content: space-between;
-    font-size: 14px;
-    color: #fff;
-    margin-bottom: 15px;
-}
-
-.remember-forgot a {
-    color: #00bcd4;
-    text-decoration: none;
-}
-
-.remember-forgot a:hover {
-    text-decoration: underline;
-}
-
+/* OPTIONS & BUTTON */
+.options { display: flex; justify-content: space-between; width: 100%; font-size: 14px; margin-bottom: 20px; }
+.options a { color: #fff; text-decoration: underline; }
 .login-btn {
     width: 100%;
-    padding: 10px;
+    padding: 15px 20px;
     border: none;
-    border-radius: 5px;
-    background: #00bcd4;
-    color: #fff;
+    border-radius: 12px;
     font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
-    transition: 0.3s ease-in-out;
-}
-
-.login-btn:hover {
-    background: #008c9e;
-}
-
-.error-message {
-    color: #ff4d4d;
-    font-size: 14px;
-    margin-top: 10px;
-}
-
-.success-message {
-    color: #4caf50;
-    font-size: 14px;
-    margin-top: 10px;
-}
-
-.register-link {
-    margin-top: 15px;
-    font-size: 14px;
+    background: rgba(255,255,255,0.2);
     color: #fff;
+    transition: all 0.3s;
+    backdrop-filter: blur(5px);
+}
+.login-btn:hover { background: rgba(255,255,255,0.4); }
+
+/* MESSAGES */
+.message { text-align: center; margin: 15px 0; font-size: 14px; color: #fff; }
+
+/* LINKS */
+.links { text-align: center; margin-top: 10px; }
+.links a { color: #fff; font-weight: 500; text-decoration: underline; }
+
+/* CRYPTO PANELS */
+.crypto-info { margin-top: 25px; width: 100%; display: flex; flex-direction: column; gap: 12px; }
+.crypto-item {
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(0,0,0,0.5); padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 15px; font-weight: 500;
+    position: relative;
+    overflow: hidden;
+}
+.crypto-item span.price { font-weight: bold; transition: color 0.5s, transform 0.3s; }
+.crypto-item.up span.price { color: #4caf50; transform: translateY(-2px); }
+.crypto-item.down span.price { color: #f44336; transform: translateY(2px); }
+.crypto-info a { color: #f2a900; text-decoration: underline; }
+
+/* PUBLICITÉS / LIENS */
+.ads { margin-top: 20px; width: 100%; display: flex; flex-direction: column; gap: 12px; }
+.ad-link { display: block; padding: 12px 20px; border-radius: 10px; background: rgba(255,255,255,0.15); text-align: center; color: #fff; font-weight: bold; text-decoration: none; transition: all 0.3s; }
+.ad-link:hover { background: rgba(255,255,255,0.3); transform: scale(1.02); }
+
+/* ANIMATIONS */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 480px) { .container { padding: 30px 20px; } }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="header"><h1>Connexion Crypto</h1></div>
+
+    <div class="form-group">
+        <input type="text" id="username" placeholder="Nom d'utilisateur">
+        <i class="fa-solid fa-user"></i>
+    </div>
+    <div class="form-group">
+        <input type="password" id="password" placeholder="Mot de passe">
+        <i class="fa-solid fa-lock"></i>
+    </div>
+
+    <div class="options">
+        <label><input type="checkbox"> Se souvenir de moi</label>
+        <a href="#">Mot de passe oublié ?</a>
+    </div>
+
+    <button class="login-btn" onclick="authenticateUser()">Se connecter</button>
+    <p id="message" class="message"></p>
+
+    <div class="links">
+        <p>Pas de compte ? <a href="inscrition.html">Inscription</a></p>
+    </div>
+
+    <div class="crypto-info" id="cryptoInfo">
+        <div class="crypto-item"><span>Bitcoin (BTC):</span> <span class="price" id="btcPrice">Chargement...</span></div>
+        <div class="crypto-item"><span>Ethereum (ETH):</span> <span class="price" id="ethPrice">Chargement...</span></div>
+        <div class="crypto-item"><span>Tether (USDT):</span> <span class="price" id="usdtPrice">Chargement...</span></div>
+        <p>Voir plus sur <a href="https://www.binance.com" target="_blank">Binance</a></p>
+    </div>
+
+    <div class="ads">
+        <a href="https://www.coinmarketcap.com" class="ad-link" target="_blank">Consultez CoinMarketCap</a>
+        <a href="https://www.crypto.com" class="ad-link" target="_blank">Obtenez votre carte Crypto.com</a>
+        <a href="https://www.binance.com" class="ad-link" target="_blank">Taux et échanges sur Binance</a>
+    </div>
+</div>
+
+<script>
+function updateCryptoPrices() {
+    const items = [
+        {id: "btcPrice", min: 10000, max: 50000},
+        {id: "ethPrice", min: 500, max: 4000},
+        {id: "usdtPrice", min: 0.95, max: 1.05}
+    ];
+
+    items.forEach(item => {
+        const oldValue = parseFloat(document.getElementById(item.id).textContent) || 0;
+        const newValue = (Math.random() * (item.max - item.min) + item.min).toFixed(2);
+        const el = document.getElementById(item.id);
+        const parent = el.parentElement;
+
+        el.textContent = newValue + " USD";
+        if(oldValue < newValue) {
+            parent.classList.add('up');
+            parent.classList.remove('down');
+        } else if(oldValue > newValue) {
+            parent.classList.add('down');
+            parent.classList.remove('up');
+        }
+    });
 }
 
-.register-link a {
-    color: #00bcd4;
-    text-decoration: none;
-}
+setInterval(updateCryptoPrices, 2500);
+updateCryptoPrices();
 
-.register-link a:hover {
-    text-decoration: underline;
+function authenticateUser() {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    const message = document.getElementById("message");
+
+    message.textContent = "";
+    message.className = "message";
+
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const user = users.find(user => user.username === username && user.password === password);
+
+    if (user) {
+        if (user.username === "admin") {
+            message.textContent = "Connexion réussie en tant qu'administrateur !";
+            setTimeout(() => { window.location.href = "admin.html"; }, 1000);
+        } else {
+            message.textContent = "Connexion réussie !";
+            setTimeout(() => { window.location.href = "dashboard.html"; }, 1000);
+        }
+    } else {
+        message.textContent = "Nom d'utilisateur ou mot de passe incorrect.";
+    }
 }
+</script>
+</body>
+</html>
