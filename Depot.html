@@ -1,182 +1,170 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dépôt Cryptomonnaie</title>
-    <link rel="stylesheet" href="style3.css">
-    <style>
-        /* Style global */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dépôt Cryptomonnaie</title>
+<script src="https://kit.fontawesome.com/093708b09e.js" crossorigin="anonymous"></script>
+<style>
+/* BODY & BACKGROUND */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url('https://london-post.co.uk/wp-content/uploads/2024/04/IMG_2136.jpeg') no-repeat center center/cover;
+    color: #fff;
+}
+body::before {
+    content: '';
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index:0;
+}
 
-        /* Menu en haut */
-        .menu {
-            background-color: #4CAF50;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            padding: 10px 0;
-        }
+/* MENU FIXE */
+.menu {
+    position: fixed;
+    top:0;
+    width:100%;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    display:flex;
+    justify-content:center;
+    padding:10px 0;
+    z-index:10;
+}
+.menu ul {
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:flex;
+}
+.menu ul li { margin:0 15px; }
+.menu ul li a {
+    color:#fff;
+    text-decoration:none;
+    font-weight:500;
+    font-size:1.2em;
+    transition: color 0.3s, transform 0.2s;
+}
+.menu ul li a:hover { color:#f2a900; transform:scale(1.05); }
 
-        .menu ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-        }
+/* HEADER */
+h1 {
+    text-align:center;
+    margin-top:100px;
+    font-size:32px;
+    color:#f2a900;
+}
 
-        .menu ul li {
-            margin: 0 15px;
-        }
+/* CONTAINER DÉPÔT */
+#deposit-address-container {
+    width:80%;
+    max-width:600px;
+    margin:20px auto;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(8px);
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.5);
+}
+#deposit-address-container h2 {
+    text-align:center;
+    font-size:24px;
+    margin-bottom:20px;
+    color:#f2a900;
+}
+.deposit-row {
+    margin-bottom:20px;
+}
+label {
+    display:block;
+    font-size:1.1em;
+    margin-bottom:8px;
+    color:#fff;
+}
+input[type="text"] {
+    width:100%;
+    padding:10px;
+    border:none;
+    border-radius:8px;
+    font-size:1em;
+    background: rgba(255,255,255,0.1);
+    color:#fff;
+}
+input[type="text"]::selection { background: rgba(242,169,0,0.3); }
 
-        .menu ul li a {
-            text-decoration: none;
-            color: white;
-            font-size: 1.2em;
-            transition: color 0.3s;
-        }
+/* BOUTON COPIER */
+button {
+    margin-top:10px;
+    padding:10px 15px;
+    font-size:1em;
+    color:#fff;
+    background: rgba(242,169,0,0.8);
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    transition: all 0.3s;
+}
+button:hover { background: rgba(242,169,0,1); transform:scale(1.05); }
+button:active { transform:scale(0.95); }
 
-        .menu ul li a:hover {
-            color: #ddd;
-        }
-
-        /* Contenu principal */
-        h1 {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 2.5em;
-            color: #333;
-        }
-
-        #deposit-address-container {
-            width: 80%;
-            margin: 20px auto;
-            background: #fff;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-        }
-
-        #deposit-address-container h2 {
-            font-size: 1.8em;
-            text-align: center;
-            color: #4CAF50;
-            margin-bottom: 20px;
-        }
-
-        div {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            font-size: 1.2em;
-            margin-bottom: 5px;
-            color: #555;
-        }
-
-        input[type="text"] {
-            width: calc(100% - 10px);
-            padding: 10px;
-            font-size: 1.1em;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-
-        button {
-            margin-top: 10px;
-            padding: 10px 15px;
-            font-size: 1em;
-            color: #fff;
-            background-color: #4CAF50;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        button:active {
-            background-color: #3e8e41;
-        }
-
-        /* Responsive design */
-        @media (max-width: 768px) {
-            #deposit-address-container {
-                width: 90%;
-            }
-
-            input[type="text"] {
-                font-size: 1em;
-            }
-
-            button {
-                font-size: 0.9em;
-            }
-        }
-    </style>
+/* RESPONSIVE */
+@media(max-width:768px){
+    #deposit-address-container { width:90%; padding:15px; }
+    h1 { font-size:28px; margin-top:120px; }
+    button { font-size:0.9em; }
+}
+</style>
 </head>
 <body>
 
-    <!-- Menu en haut -->
-    <div class="menu">
-        <ul>
-            <li><a href="dashboard.html">Tableau de Bord</a></li>
-            <li><a href="verification.html">Vérification</a></li>
-            <li><a href="depot.html">Dépôt</a></li>
-            <li><a href="retrait.html">Retrait</a></li>
-            <li><a href="information.html">Informations</a></li>
-        </ul>
+<!-- MENU -->
+<div class="menu">
+    <ul>
+        <li><a href="dashboard.html">Tableau de Bord</a></li>
+        <li><a href="verification.html">Vérification</a></li>
+        <li><a href="depot.html">Dépôt</a></li>
+        <li><a href="retrait.html">Retrait</a></li>
+        <li><a href="information.html">Informations</a></li>
+    </ul>
+</div>
+
+<h1>Dépôt Cryptomonnaie</h1>
+
+<div id="deposit-address-container">
+    <h2>Adresses de dépôt</h2>
+
+    <div class="deposit-row">
+        <label for="btc-address">Adresse BTC :</label>
+        <input type="text" id="btc-address" value="16DAqeS8j8vp7aWFuYw5kiSAnsPUFTY9Lm" readonly>
+        <button onclick="copyToClipboard('btc-address')"><i class="fa-solid fa-copy"></i> Copier</button>
     </div>
 
-    <h1>Dépôt Cryptomonnaie</h1>
-
-    <!-- Affichage des adresses de dépôt -->
-    <div id="deposit-address-container">
-        <h2>Adresses de dépôt</h2>
-
-        <!-- Adresse BTC -->
-        <div>
-            <label for="btc-address">Adresse BTC :</label>
-            <input type="text" id="btc-address" value="16DAqeS8j8vp7aWFuYw5kiSAnsPUFTY9Lm" readonly>
-            <button onclick="copyToClipboard('btc-address')">Copier</button>
-        </div>
-
-        <!-- Adresse USDT TRC20 -->
-        <div>
-            <label for="usdt-address">Adresse USDT TRC20 :</label>
-            <input type="text" id="usdt-address" value="TXz9hy1W3EB1ZB5GZ2ME2WWHJXMAx1V1Xp" readonly>
-            <button onclick="copyToClipboard('usdt-address')">Copier</button>
-        </div>
-
-        <!-- Adresse LTC -->
-        <div>
-            <label for="ltc-address">Adresse LTC :</label>
-            <input type="text" id="ltc-address" value="ltc1q89ccn6w88v04hm9wdgdcjs7dh73cklergkjrem" readonly>
-            <button onclick="copyToClipboard('ltc-address')">Copier</button>
-        </div>
+    <div class="deposit-row">
+        <label for="usdt-address">Adresse USDT TRC20 :</label>
+        <input type="text" id="usdt-address" value="TXz9hy1W3EB1ZB5GZ2ME2WWHJXMAx1V1Xp" readonly>
+        <button onclick="copyToClipboard('usdt-address')"><i class="fa-solid fa-copy"></i> Copier</button>
     </div>
 
-    <script>
-        // Fonction pour copier l'adresse dans le presse-papiers
-        function copyToClipboard(elementId) {
-            const inputField = document.getElementById(elementId);
-            inputField.select();
-            inputField.setSelectionRange(0, 99999); // Pour mobile
-            document.execCommand('copy');
-            alert("Adresse copiée !");
-        }
-    </script>
+    <div class="deposit-row">
+        <label for="ltc-address">Adresse LTC :</label>
+        <input type="text" id="ltc-address" value="ltc1q89ccn6w88v04hm9wdgdcjs7dh73cklergkjrem" readonly>
+        <button onclick="copyToClipboard('ltc-address')"><i class="fa-solid fa-copy"></i> Copier</button>
+    </div>
+</div>
+
+<script>
+// Copier dans le presse-papiers
+function copyToClipboard(elementId) {
+    const inputField = document.getElementById(elementId);
+    inputField.select();
+    inputField.setSelectionRange(0,99999);
+    document.execCommand('copy');
+    alert("Adresse copiée !");
+}
+</script>
 
 </body>
 </html>
