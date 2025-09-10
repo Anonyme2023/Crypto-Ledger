@@ -141,13 +141,13 @@ button#convert-btn:hover { background: linear-gradient(90deg,#00BFFF,#1E90FF); t
     <div id="conversion-result"></div>
 
     <div class="withdraw-buttons">
-        <button onclick="selectWithdrawal('mvola')">
+        <button type="button" onclick="selectWithdrawal('mvola')">
             <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple126/v4/f7/63/28/f76328cd-0aa0-8cbf-0f22-9b582e5fd500/AppIcon-1x_U007emarketing-0-7-0-0-85-220-0.png/1200x630wa.png" alt="MVola">MVola
         </button>
-        <button onclick="selectWithdrawal('airtel')">
+        <button type="button" onclick="selectWithdrawal('airtel')">
             <img src="https://images.seeklogo.com/logo-png/28/1/airtel-logo-png_seeklogo-289636.png" alt="Airtel">Airtel
         </button>
-        <button onclick="selectWithdrawal('orange')">
+        <button type="button" onclick="selectWithdrawal('orange')">
             <img src="https://th.bing.com/th/id/R.4160b81567dd979a65031d70a002704e?rik=Lv2KheD5aJkJ8A&pid=ImgRaw&r=0" alt="Orange">Orange
         </button>
     </div>
@@ -171,7 +171,7 @@ button#convert-btn:hover { background: linear-gradient(90deg,#00BFFF,#1E90FF); t
 </div>
 
 <script>
-let accountBalance = 0;
+let accountBalance = 100; // Exemple de solde
 
 document.addEventListener("DOMContentLoaded", function(){
     const amountInput = document.getElementById("amount");
@@ -190,14 +190,29 @@ document.addEventListener("DOMContentLoaded", function(){
             else if(devise==="usd") conversionResult.textContent = `≈ ${(montant/tauxConversion).toFixed(2)} $`;
         }else{ conversionResult.textContent=""; }
 
-        if(accountBalance===0){ balanceError.textContent="Votre solde est insuffisant."; convertBtn.disabled=true; }
-        else { balanceError.textContent=""; convertBtn.disabled=false; }
+        if(accountBalance===0){ 
+            balanceError.textContent="Votre solde est insuffisant."; 
+            convertBtn.disabled=true; 
+        } else { 
+            balanceError.textContent=""; 
+            convertBtn.disabled=false; 
+        }
     }
 
     amountInput.addEventListener("input",updateConversion);
     currencySelect.addEventListener("change",updateConversion);
     currencySelect.value='ariary';
     updateConversion();
+
+    // Bloquer le submit pour éviter le rechargement
+    document.getElementById("withdrawal-form").addEventListener("submit", function(e){
+        e.preventDefault();
+        const montant = amountInput.value;
+        const crypto = document.getElementById("crypto").value;
+        const currency = currencySelect.value;
+        document.getElementById("message-withdrawal").textContent = 
+            `Vous avez demandé la conversion de ${montant} en ${crypto} (${currency})`;
+    });
 });
 
 function selectWithdrawal(method){
