@@ -3,204 +3,218 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Retrait Cryptomonnaie Intelligent</title>
-<script src="https://kit.fontawesome.com/093708b09e.js" crossorigin="anonymous"></script>
+<title>Retrait & Assistance Crypto</title>
 <style>
-/* BODY & BACKGROUND */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
-    margin:0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
     background: url('https://london-post.co.uk/wp-content/uploads/2024/04/IMG_2136.jpeg') no-repeat center center/cover;
-    color:#fff;
+    color: #fff;
+    position: relative;
 }
+
 body::before {
     content:'';
-    position:fixed; top:0; left:0;
+    position: absolute;
+    top:0; left:0;
     width:100%; height:100%;
-    background-color:rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.5);
     z-index:0;
 }
 
-/* MENU FIXE */
-.menu {
-    position:fixed; top:0; width:100%; background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(8px); display:flex; justify-content:center; padding:10px 0; z-index:10;
+.container {
+    position: relative;
+    z-index:2;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    padding: 30px 20px;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
 }
-.menu ul { list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; }
-.menu ul li { margin:0 15px; }
-.menu ul li a { color:#fff; text-decoration:none; font-weight:500; font-size:1.1em; transition: color 0.3s, transform 0.2s; }
-.menu ul li a:hover { color:#f2a900; transform:scale(1.05); }
 
-/* HEADER */
-h1 { text-align:center; margin-top:80px; font-size:28px; color:#f2a900; }
+h1 { text-align:center; margin-bottom:20px; font-size:1.8em; font-weight:bold; color:#fff; }
 
-/* FORMULAIRE RETRAIT */
-#withdraw-form {
-    max-width:600px; margin:20px auto; background: rgba(0,0,0,0.5);
-    padding:20px; border-radius:16px; backdrop-filter: blur(8px); box-shadow:0 6px 20px rgba(0,0,0,0.5);
+form label { display:block; margin-bottom:5px; font-weight:bold; color:#fff; }
+form input, form select {
+    width:100%; padding:12px; border-radius:10px; border:none; margin-bottom:15px;
+    font-size:1em; background: rgba(255,255,255,0.2); color:#fff;
 }
-#withdraw-form div { margin-bottom:15px; }
-#withdraw-form label { display:block; margin-bottom:5px; color:#f2a900; font-weight:bold; }
-#withdraw-form input, #withdraw-form select {
-    width:100%; padding:10px; border-radius:8px; border:none; font-size:1em;
-}
-#withdraw-form button {
-    margin-top:10px; padding:10px; width:100%;
-    border:none; border-radius:8px; font-weight:bold; background:#f2a900; color:#000; cursor:pointer;
-    transition: 0.3s;
-}
-#withdraw-form button:hover { background:#ffcc33; }
+form input::placeholder { color:rgba(255,255,255,0.7); }
 
-/* FACTURE RETRAIT */
-.facture {
-    max-width:600px; margin:20px auto; background: rgba(0,0,0,0.5);
-    padding:20px; border-radius:16px; backdrop-filter: blur(8px); box-shadow:0 6px 20px rgba(0,0,0,0.5);
+.withdraw-buttons { display:flex; justify-content:space-between; margin-bottom:15px; }
+.withdraw-buttons button {
+    flex:1; margin:0 5px; padding:10px; border:none; border-radius:16px; font-weight:bold;
+    background: rgba(0,0,0,0.4); color:#fff; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    gap:8px; transition: all 0.3s;
 }
-.facture h2 { text-align:center; color:#f2a900; margin-bottom:20px; }
-.info p, .details p { margin:8px 0; font-size:1em; }
-.details p span { font-weight:bold; }
-.payment-method { display:flex; align-items:center; gap:10px; margin-top:5px; }
-.payment-method img { width:50px; height:auto; border-radius:8px; }
-.footer { text-align:center; margin-top:15px; font-style:italic; color:#ddd; }
+.withdraw-buttons button:hover { transform: scale(1.05); background: rgba(0,0,0,0.6); }
 
-/* MINI CHATBOT */
-#chatbot {
-    position:fixed; bottom:20px; right:20px; width:300px; max-height:400px;
-    background: rgba(0,0,0,0.8); border-radius:16px; padding:10px; display:flex; flex-direction:column; z-index:20;
+.info-box {
+    background: rgba(0,0,0,0.6); padding:15px; border-radius:10px; display:none; margin-bottom:15px;
 }
-#chatbot .messages { flex:1; overflow-y:auto; padding:5px; }
-#chatbot .messages p { margin:5px 0; }
-#chatbot input { padding:8px; border-radius:8px; border:none; margin-top:5px; width:100%; }
-#chatbot button { padding:8px; margin-top:5px; border:none; border-radius:8px; background:#f2a900; color:#000; cursor:pointer; font-weight:bold; }
+
+button#convert-btn {
+    width:100%; padding:15px; border:none; border-radius:12px; font-size:1em; font-weight:bold;
+    cursor:pointer; background: linear-gradient(90deg,#1E90FF,#00BFFF); color:#fff;
+    transition: all 0.3s;
+}
+button#convert-btn:hover { background: linear-gradient(90deg,#00BFFF,#1E90FF); transform:translateY(-2px); }
+
+#conversion-result, #balance-error, #message-withdrawal { text-align:center; margin:10px 0; font-weight:bold; }
+#balance-error { color:#FF4C4C; }
+#message-withdrawal { color:#00FF7F; }
+
+/* Assistant bull */
+.assistant-bull {
+    position: fixed;
+    bottom:30px;
+    right:30px;
+    width:60px;
+    height:60px;
+    background: linear-gradient(135deg,#FF8C00,#FFA500);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    font-size:1.5em;
+    box-shadow:0 4px 15px rgba(0,0,0,0.3);
+    z-index:5;
+    transition: transform 0.3s;
+}
+.assistant-bull:hover { transform: scale(1.1); }
+
+.assistant-chat {
+    position: fixed;
+    bottom:100px;
+    right:30px;
+    width:300px;
+    max-width:90%;
+    background: rgba(0,0,0,0.8);
+    padding:15px;
+    border-radius:12px;
+    display:none;
+    flex-direction:column;
+    z-index:5;
+    color:#fff;
+}
+.assistant-chat h3 { margin-bottom:10px; font-size:1.1em; }
+.assistant-chat p { font-size:0.9em; margin-bottom:5px; }
+
+.withdraw-buttons img {
+    width:24px;
+    height:24px;
+    object-fit:contain;
+}
 </style>
 </head>
 <body>
+<div class="container">
+    <h1>Retrait & Convertisseur</h1>
+    <form id="withdrawal-form">
+        <label for="amount">Montant :</label>
+        <input type="number" id="amount" min="50" max="500" placeholder="Entrez un montant" required>
 
-<!-- MENU -->
-<div class="menu">
-    <ul>
-        <li><a href="dashboard.html">Tableau de Bord</a></li>
-        <li><a href="verification.html">Vérification</a></li>
-        <li><a href="depot.html">Dépôt</a></li>
-        <li><a href="retrait.html">Retrait</a></li>
-        <li><a href="information.html">Informations</a></li>
-        <li><a href="#" id="logout">Déconnexion</a></li>
-    </ul>
-</div>
-
-<h1>Retrait Cryptomonnaie</h1>
-
-<!-- FORMULAIRE RETRAIT -->
-<form id="withdraw-form">
-    <div>
-        <label>Montant à retirer (USD)</label>
-        <input type="number" id="withdrawAmount" min="1" value="100">
-    </div>
-    <div>
-        <label>Méthode de paiement</label>
-        <select id="paymentMethod">
-            <option value="Mvola">Mvola</option>
-            <option value="Orange Money">Orange Money</option>
-            <option value="Airtel Money">Airtel Money</option>
-            <option value="Carte Bancaire">Carte Bancaire</option>
+        <label for="crypto">Cryptomonnaie :</label>
+        <select id="crypto">
+            <option value="usdt">USDT (TRC20)</option>
+            <option value="bitcoin">Bitcoin (BTC)</option>
+            <option value="litecoin">USDC (PAY)</option>
         </select>
-    </div>
-    <button type="button" onclick="genererFacture()">Générer Facture</button>
-</form>
 
-<!-- FACTURE -->
-<div class="facture" id="facture" style="display:none;">
-    <h2>FACTURE DE RETRAIT</h2>
-    <div class="info">
-        <p><strong>Date et Heure :</strong> <span id="dateHeure"></span></p>
-        <p><strong>Nom du Client :</strong> <span id="nomClient">Utilisateur</span></p>
-        <p><strong>Méthode de Paiement :</strong> <span id="methodePaiement">Mvola</span></p>
-        <div class="payment-method" id="logoPaiement">
-            <img src="" alt="Logo">
-        </div>
-        <p><strong>Numéro :</strong> <span id="numeroPaiement">+261000000000</span></p>
+        <label for="currency">Devise :</label>
+        <select id="currency">
+            <option value="ariary">Ariary</option>
+            <option value="euro">Euro (€)</option>
+            <option value="usd">USD ($)</option>
+        </select>
+
+        <button type="submit" id="convert-btn" disabled>Convertir</button>
+    </form>
+
+    <div id="conversion-result"></div>
+
+    <div class="withdraw-buttons">
+        <button onclick="selectWithdrawal('mvola')">
+            <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple126/v4/f7/63/28/f76328cd-0aa0-8cbf-0f22-9b582e5fd500/AppIcon-1x_U007emarketing-0-7-0-0-85-220-0.png/1200x630wa.png" alt="MVola">MVola
+        </button>
+        <button onclick="selectWithdrawal('airtel')">
+            <img src="https://images.seeklogo.com/logo-png/28/1/airtel-logo-png_seeklogo-289636.png" alt="Airtel">Airtel
+        </button>
+        <button onclick="selectWithdrawal('orange')">
+            <img src="https://th.bing.com/th/id/R.4160b81567dd979a65031d70a002704e?rik=Lv2KheD5aJkJ8A&pid=ImgRaw&r=0" alt="Orange">Orange
+        </button>
     </div>
-    <div class="details">
-        <p>Montant Retiré : <span id="montantUSD">0 USD</span></p>
-        <p>Taux de Conversion : <span id="tauxConversion">1 USD = 4800 MGA</span></p>
-        <p>Montant en Ariary : <span id="montantMGA">0 MGA</span></p>
+
+    <div id="withdraw-info" class="info-box"></div>
+    <div id="withdraw-phone" class="info-box">
+        <label for="phone-input">Numéro :</label>
+        <input type="text" id="phone-input" placeholder="+261 34 123 4567">
     </div>
-    <div class="footer">Merci de votre confiance !</div>
+
+    <div id="balance-error"></div>
+    <div id="message-withdrawal"></div>
 </div>
 
-<!-- MINI CHATBOT -->
-<div id="chatbot">
-    <div class="messages" id="chatMessages">
-        <p><em>Bot :</em> Bonjour ! Je peux t'aider avec ton retrait.</p>
-    </div>
-    <input type="text" id="chatInput" placeholder="Pose ta question...">
-    <button onclick="sendMessage()">Envoyer</button>
+<!-- Assistant -->
+<div class="assistant-bull" onclick="toggleAssistant()">💬</div>
+<div class="assistant-chat" id="assistant-chat">
+    <h3>Assistant Virtuel</h3>
+    <p>Bonjour ! Besoin d’aide pour vos retraits ou conversions ?</p>
+    <p>Choisissez un retrait et suivez les instructions.</p>
 </div>
 
 <script>
-// Vérifier utilisateur connecté
-const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-if(!currentUser){ window.location.href="index.html"; }
-document.getElementById("nomClient").innerText = currentUser.username || "Utilisateur";
+let accountBalance = 0;
 
-// Logout
-document.getElementById("logout").addEventListener("click", ()=>{
-    localStorage.removeItem("currentUser");
-    window.location.href="index.html";
+document.addEventListener("DOMContentLoaded", function(){
+    const amountInput = document.getElementById("amount");
+    const currencySelect = document.getElementById("currency");
+    const conversionResult = document.getElementById("conversion-result");
+    const convertBtn = document.getElementById("convert-btn");
+    const balanceError = document.getElementById("balance-error");
+    const tauxConversion = 4600;
+
+    function updateConversion(){
+        let montant = parseFloat(amountInput.value);
+        let devise = currencySelect.value;
+        if(!isNaN(montant) && montant>=20){
+            if(devise==="ariary") conversionResult.textContent = `≈ ${(montant*tauxConversion).toLocaleString()} MGA`;
+            else if(devise==="euro") conversionResult.textContent = `≈ ${(montant/tauxConversion).toFixed(2)} €`;
+            else if(devise==="usd") conversionResult.textContent = `≈ ${(montant/tauxConversion).toFixed(2)} $`;
+        }else{ conversionResult.textContent=""; }
+
+        if(accountBalance===0){ balanceError.textContent="Votre solde est insuffisant."; convertBtn.disabled=true; }
+        else { balanceError.textContent=""; convertBtn.disabled=false; }
+    }
+
+    amountInput.addEventListener("input",updateConversion);
+    currencySelect.addEventListener("change",updateConversion);
+    currencySelect.value='ariary';
+    updateConversion();
 });
 
-// Générer facture
-function genererFacture(){
-    const montant = document.getElementById("withdrawAmount").value || 0;
-    const method = document.getElementById("paymentMethod").value;
+function selectWithdrawal(method){
+    const info = document.getElementById("withdraw-info");
+    const phoneBox = document.getElementById("withdraw-phone");
+    const phoneInput = document.getElementById("phone-input");
+    info.style.display="block";
+    phoneBox.style.display="block";
 
-    // Montant & conversion
-    const taux = 4800;
-    document.getElementById("montantUSD").innerText = montant + " USD";
-    document.getElementById("tauxConversion").innerText = `1 USD = ${taux} MGA`;
-    document.getElementById("montantMGA").innerText = `${montant*taux} MGA`;
-
-    // Date et heure
-    document.getElementById("dateHeure").innerText = new Date().toLocaleString();
-
-    // Méthode de paiement
-    const methodeSpan = document.getElementById("methodePaiement");
-    const logoDiv = document.getElementById("logoPaiement");
-    const numeroSpan = document.getElementById("numeroPaiement");
-    let logoUrl="", numero="+261000000000";
-    switch(method){
-        case "Mvola": logoUrl="https://upload.wikimedia.org/wikipedia/commons/2/2e/M-vola_logo.png"; numero="+261348876509"; break;
-        case "Orange Money": logoUrl="https://upload.wikimedia.org/wikipedia/commons/1/11/Orange_Money_logo.png"; numero="+261339876543"; break;
-        case "Airtel Money": logoUrl="https://upload.wikimedia.org/wikipedia/commons/e/e5/Airtel_Money_logo.png"; numero="+261330123456"; break;
-        case "Carte Bancaire": logoUrl=""; numero="**** **** **** 1234"; break;
-    }
-    methodeSpan.innerText = method;
-    logoDiv.innerHTML = logoUrl ? `<img src="${logoUrl}" alt="${method}">` : "";
-    numeroSpan.innerText = numero;
-
-    document.getElementById("facture").style.display="block";
+    if(method==='mvola'){ info.textContent="Retrait via Mvola. Entrez votre numéro."; phoneInput.value="+261 "; }
+    else if(method==='orange'){ info.textContent="Retrait via Orange. Entrez votre numéro."; phoneInput.value="+261 "; }
+    else if(method==='airtel'){ info.textContent="Retrait via Airtel. Entrez votre numéro."; phoneInput.value="+261 "; }
 }
 
-// Mini chatbot simple
-function sendMessage(){
-    const input = document.getElementById("chatInput");
-    const message = input.value.trim();
-    if(!message) return;
-    const chat = document.getElementById("chatMessages");
-
-    // Afficher message utilisateur
-    chat.innerHTML += `<p><strong>Vous :</strong> ${message}</p>`;
-
-    // Réponse simple automatique (exemple)
-    let reply = "Je ne comprends pas, peux-tu préciser ?";
-    if(message.toLowerCase().includes("mvola")) reply="Pour Mvola, assure-toi d'avoir le numéro correct et le solde suffisant.";
-    else if(message.toLowerCase().includes("orange")) reply="Pour Orange Money, vérifie ton réseau et le numéro saisi.";
-    else if(message.toLowerCase().includes("airel") || message.toLowerCase().includes("airtel")) reply="Pour Airtel Money, assure-toi que ton compte est actif.";
-    else if(message.toLowerCase().includes("banque")) reply="Pour Carte Bancaire, vérifie ton code CVV et ton solde disponible.";
-
-    chat.innerHTML += `<p><em>Bot :</em> ${reply}</p>`;
-    chat.scrollTop = chat.scrollHeight;
-    input.value="";
+function toggleAssistant(){
+    const chat = document.getElementById("assistant-chat");
+    chat.style.display = chat.style.display==="flex"?"none":"flex";
 }
 </script>
 </body>
