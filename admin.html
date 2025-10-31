@@ -1,52 +1,171 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion Admin</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://kit.fontawesome.com/093708b09e.js" crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interface Starlink — Page de saisie</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(180deg,#021026 0%, #071428 60%);
+        color: #e6eef8;
+        margin: 0;
+        padding: 20px;
+    }
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    header h1 {
+        margin: 0;
+        font-size: 28px;
+    }
+    .tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+    .tab {
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    .tab.active {
+        background: #00a3ff;
+        color: #042;
+    }
+    .card {
+        background: rgba(255,255,255,0.03);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+    }
+    label {
+        display: block;
+        margin-top: 10px;
+        margin-bottom: 6px;
+        font-size: 14px;
+        color: #98a0b3;
+    }
+    input, textarea {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid rgba(255,255,255,0.1);
+        background: transparent;
+        color: #e6eef8;
+        font-size: 15px;
+    }
+    textarea {
+        min-height: 100px;
+    }
+    .warning {
+        background: #ffd6a5;
+        color: #4a2b00;
+        padding: 12px;
+        border-radius: 10px;
+        margin-top: 15px;
+    }
+    .actions {
+        text-align: right;
+        margin-top: 20px;
+    }
+    button {
+        padding: 10px 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    .btn-primary {
+        background: #00a3ff;
+        color: #042;
+    }
+    .panel {
+        display: none;
+    }
+    .panel.active {
+        display: block;
+    }
+</style>
 </head>
 <body>
-    <section>
-        <h1>Connexion Administrateur</h1>
-        <div class="input-box">
-            <input type="text" id="adminId" placeholder="ID Admin">
-            <i class="fa-solid fa-user"></i>
-        </div>
-        <div class="input-box">
-            <input type="password" id="adminPassword" placeholder="Mot de passe">
-            <i class="fa-solid fa-lock"></i>
-        </div>
-        <button class="login-btn" onclick="authenticateAdmin()">Se connecter</button>
+<div class="container">
+    <header>
+        <h1>Interface Starlink — Saisie de service</h1>
+        <p>Formulaire sécurisé pour configurer un service satellite</p>
+    </header>
 
-        <!-- Message d'erreur/succès -->
-        <p id="message" class="error-message"></p>
-    </section>
+    <div class="tabs">
+        <div class="tab active" data-tab="info">Informations</div>
+        <div class="tab" data-tab="paiement">Paiement</div>
+        <div class="tab" data-tab="activation">Activation</div>
+    </div>
 
-    <script>
-        function authenticateAdmin() {
-            const adminId = document.getElementById("adminId").value;
-            const adminPassword = document.getElementById("adminPassword").value;
-            const message = document.getElementById("message");
+    <div class="card">
+        <form id="starlinkForm">
+            <!-- Onglet Informations -->
+            <div class="panel active" id="info">
+                <label for="uid">UID</label>
+                <input type="text" id="uid" name="uid" placeholder="Identifiant unique (UID)" required>
 
-            // Effacer les messages précédents
-            message.textContent = "";
+                <label for="gmail">Gmail cible</label>
+                <input type="email" id="gmail" name="gmail" placeholder="exemple@gmail.com" required>
 
-            // Vérifier si l'ID et le mot de passe correspondent à l'administrateur
-            if (adminId === "crow" && adminPassword === "crow154") {
-                // Redirection vers la page du tableau de bord administrateur
-                message.textContent = "Connexion réussie !";
-                message.className = "success-message";
-                setTimeout(() => {
-                    window.location.href = "admin-dashboard.html"; // Redirection vers le tableau de bord admin
-                }, 1000);
-            } else {
-                // Message d'erreur si ID ou mot de passe incorrect
-                message.textContent = "ID ou mot de passe incorrect.";
-                message.className = "error-message";
-            }
-        }
-    </script>
+                <label for="note">Note (selon le service)</label>
+                <textarea id="note" name="note" placeholder="Précisions ou observations..."></textarea>
+
+                <div class="warning">
+                    <strong>Remarque importante :</strong> Vous devez ajouter un fond de <strong>100 000 MGA</strong> car votre couverture est très confuse. Nous devons placer d'autres satellites pour améliorer la zone.
+                </div>
+            </div>
+
+            <!-- Onglet Paiement -->
+            <div class="panel" id="paiement">
+                <label for="montant">Montant (MGA)</label>
+                <input type="number" id="montant" name="montant" placeholder="Ex: 100000" required>
+            </div>
+
+            <!-- Onglet Activation -->
+            <div class="panel" id="activation">
+                <label for="activationCode">Code d'activation</label>
+                <input type="text" id="activationCode" name="activationCode" placeholder="Code reçu" required>
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn-primary">Envoyer</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const tabs = document.querySelectorAll('.tab');
+    const panels = document.querySelectorAll('.panel');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            const target = tab.dataset.tab;
+            panels.forEach(panel => {
+                panel.classList.remove('active');
+                if(panel.id === target) panel.classList.add('active');
+            });
+        });
+    });
+
+    document.getElementById('starlinkForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('Formulaire soumis avec succès !');
+    });
+</script>
 </body>
 </html>
