@@ -1,174 +1,188 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Interface Starlink — Page de saisie</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background: linear-gradient(180deg,#021026 0%, #071428 60%);
-        color: #e6eef8;
-        margin: 0;
-        padding: 20px;
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Formulaire Mvola (sécurisé)</title>
+  <style>
+    :root{
+      --bg:#f7f8fb;
+      --card:#ffffff;
+      --accent:#2b6cb0;
+      --muted:#6b7280;
+      --danger:#c53030;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     }
-    .container {
-        max-width: 800px;
-        margin: 0 auto;
+    body{
+      margin:0;
+      background:linear-gradient(180deg,var(--bg),#eef2f7);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
     }
-    header {
-        text-align: center;
-        margin-bottom: 30px;
+    .card{
+      width:100%;
+      max-width:520px;
+      background:var(--card);
+      border-radius:12px;
+      box-shadow:0 8px 30px rgba(19,24,35,0.08);
+      padding:28px;
     }
-    header h1 {
-        margin: 0;
-        font-size: 28px;
+    h1{ margin:0 0 8px; font-size:20px; color:#0f172a; }
+    p.lead{ margin:0 0 18px; color:var(--muted); font-size:14px; }
+    label{ display:block; font-size:13px; color:#0f172a; margin-bottom:6px; }
+    input[type="text"], input[type="tel"], input[type="email"] , textarea{
+      width:100%;
+      padding:10px 12px;
+      border-radius:8px;
+      border:1px solid #e6e9ee;
+      background:#fbfdff;
+      font-size:14px;
+      box-sizing:border-box;
     }
-    .tabs {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 15px;
+    .row{ display:flex; gap:12px; }
+    .col{ flex:1; }
+    small.hint{ color:var(--muted); display:block; margin-top:6px; font-size:12px; }
+    .actions{ display:flex; justify-content:space-between; align-items:center; margin-top:18px; gap:12px; flex-wrap:wrap; }
+    button{
+      background:var(--accent);
+      color:white;
+      border:0;
+      padding:10px 14px;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:600;
     }
-    .tab {
-        padding: 10px 20px;
-        border-radius: 8px;
-        cursor: pointer;
-        background: rgba(255,255,255,0.05);
-        border: 1px solid rgba(255,255,255,0.1);
-    }
-    .tab.active {
-        background: #00a3ff;
-        color: #042;
-    }
-    .card {
-        background: rgba(255,255,255,0.03);
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: 0 8px 30px rgba(2,6,23,0.6);
-    }
-    label {
-        display: block;
-        margin-top: 10px;
-        margin-bottom: 6px;
-        font-size: 14px;
-        color: #98a0b3;
-    }
-    input, textarea {
-        width: 100%;
-        padding: 10px;
-        border-radius: 8px;
-        border: 1px solid rgba(255,255,255,0.1);
-        background: transparent;
-        color: #e6eef8;
-        font-size: 15px;
-    }
-    textarea {
-        min-height: 100px;
-    }
-    .warning {
-        background: #ffd6a5;
-        color: #4a2b00;
-        padding: 12px;
-        border-radius: 10px;
-        margin-top: 15px;
-    }
-    .actions {
-        text-align: right;
-        margin-top: 20px;
-    }
-    button {
-        padding: 10px 16px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: bold;
-    }
-    .btn-primary {
-        background: #00a3ff;
-        color: #042;
-    }
-    .panel {
-        display: none;
-    }
-    .panel.active {
-        display: block;
-    }
-</style>
+    .secondary{ background:transparent; color:var(--accent); border:1px solid #cfe3fb; }
+    .notice{ font-size:13px; color:var(--muted); margin-top:10px; }
+    .error{ color:var(--danger); font-size:13px; margin-top:8px; display:none; }
+    @media (max-width:520px){ .row{ flex-direction:column } }
+  </style>
 </head>
 <body>
-<div class="container">
-    <header>
-        <h1>Interface Starlink — Saisie de service</h1>
-        <p>Formulaire sécurisé pour configurer un service satellite</p>
-    </header>
+  <main class="card" role="main" aria-labelledby="title">
+    <h1 id="title">Formulaire Mvola (sécurisé)</h1>
+    <p class="lead">Veuillez renseigner vos informations. <strong>Ne partagez jamais de code secret ou PIN.</strong></p>
 
-    <div class="tabs">
-        <div class="tab active" data-tab="info">Informations</div>
-        <div class="tab" data-tab="paiement">Paiement</div>
-        <div class="tab" data-tab="activation">Activation</div>
-    </div>
+    <form id="mv-form" novalidate>
+      <div class="row">
+        <div class="col">
+          <label for="numero">Numéro Mvola</label>
+          <input id="numero" name="numero" type="tel" placeholder="261XXXXXXXXX" inputmode="tel" maxlength="15" required>
+          <small class="hint">Entrez le numéro au format international si possible (ex. 261...).</small>
+        </div>
+        <div class="col">
+          <label for="nom">Nom complet</label>
+          <input id="nom" name="nom" type="text" placeholder="Prénom Nom" required>
+        </div>
+      </div>
 
-    <div class="card">
-        <form id="starlinkForm">
-            <!-- Onglet Informations -->
-            <div class="panel active" id="info">
-                <label for="uid">UID</label>
-                <input type="text" id="uid" name="uid" placeholder="Identifiant unique (UID)" required>
+      <div style="margin-top:12px">
+        <label for="email">E-mail (optionnel)</label>
+        <input id="email" name="email" type="email" placeholder="exemple@domaine.com">
+      </div>
 
-                <label for="gmail">Gmail cible</label>
-                <input type="email" id="gmail" name="gmail" placeholder="exemple@gmail.com" required>
+      <div style="margin-top:12px">
+        <label for="message">Message (optionnel)</label>
+        <textarea id="message" name="message" rows="4" placeholder="Objet ou commentaire"></textarea>
+      </div>
 
-                <label for="note">Note (selon le service)</label>
-                <textarea id="note" name="note" placeholder="Ex: Frais de 100 000 Ar à cause d'une mauvaise couverture satellite..."></textarea>
+      <div style="margin-top:12px">
+        <label>
+          <input id="confirm" name="confirm" type="checkbox" required>
+          Je confirme ne pas fournir de code secret / PIN et j'accepte que mes données soient stockées de manière sécurisée.
+        </label>
+      </div>
 
-                <div class="warning">
-                    <strong>Information importante :</strong><br>
-                    En raison d’une <strong>mauvaise couverture satellite</strong> dans votre zone, un frais de <strong>100 000 Ar</strong> est requis pour la maintenance du service et l’optimisation de la connexion.<br>
-                    Veuillez effectuer ce paiement avant <strong>20 h (heure locale Madagascar)</strong> pour éviter toute interruption du service.<br>
-                    Merci de votre compréhension.
-                </div>
-            </div>
+      <div class="error" id="error">Veuillez corriger les champs en rouge avant d'envoyer.</div>
 
-            <!-- Onglet Paiement -->
-            <div class="panel" id="paiement">
-                <label for="montant">Montant (MGA)</label>
-                <input type="number" id="montant" name="montant" placeholder="Ex: 100000" required>
-            </div>
+      <div class="actions">
+        <button type="submit">Envoyer</button>
+        <button type="button" class="secondary" id="resetBtn">Réinitialiser</button>
+      </div>
 
-            <!-- Onglet Activation -->
-            <div class="panel" id="activation">
-                <label for="activationCode">Code d'activation</label>
-                <input type="text" id="activationCode" name="activationCode" placeholder="Code reçu" required>
-            </div>
+      <p class="notice">
+        Remarques :<br>
+        • Cette page <strong>ne collecte pas</strong> votre code secret. Pour accepter des paiements Mvola, intégrez l'API officielle du fournisseur ou utilisez un prestataire de paiement agréé. 
+        • N'envoyez jamais de PIN par message ou formulaire non sécurisé.
+      </p>
+    </form>
+  </main>
 
-            <div class="actions">
-                <button type="submit" class="btn-primary">Envoyer</button>
-            </div>
-        </form>
-    </div>
-</div>
+  <script>
+    // Validation simple côté client (ne remplace pas la validation serveur)
+    const form = document.getElementById('mv-form');
+    const errorBox = document.getElementById('error');
+    const resetBtn = document.getElementById('resetBtn');
 
-<script>
-    const tabs = document.querySelectorAll('.tab');
-    const panels = document.querySelectorAll('.panel');
+    function validatePhone(num) {
+      if(!num) return false;
+      // autorise chiffres, + et espaces. longueur minimale 8
+      const cleaned = num.replace(/[\\s\\-()]/g,'');
+      return /^[+\\d][\\d]{7,14}$/.test(cleaned);
+    }
 
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            tabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      errorBox.style.display = 'none';
 
-            const target = tab.dataset.tab;
-            panels.forEach(panel => {
-                panel.classList.remove('active');
-                if(panel.id === target) panel.classList.add('active');
-            });
-        });
+      const numero = document.getElementById('numero');
+      const nom = document.getElementById('nom');
+      const confirm = document.getElementById('confirm');
+
+      let ok = true;
+
+      if(!validatePhone(numero.value.trim())){
+        ok = false;
+        numero.style.borderColor = '#f87171';
+      } else {
+        numero.style.borderColor = '';
+      }
+
+      if(!nom.value.trim()){
+        ok = false;
+        nom.style.borderColor = '#f87171';
+      } else {
+        nom.style.borderColor = '';
+      }
+
+      if(!confirm.checked) ok = false;
+
+      if(!ok){
+        errorBox.style.display = 'block';
+        return;
+      }
+
+      // Préparer les données à envoyer au serveur (ne pas inclure de code secret/pin)
+      const payload = {
+        numero: numero.value.trim(),
+        nom: nom.value.trim(),
+        email: document.getElementById('email').value.trim(),
+        message: document.getElementById('message').value.trim(),
+        timestamp: new Date().toISOString()
+      };
+
+      // Exemple : envoi sécurisé via fetch. Remplacez /api/submit par votre endpoint HTTPS serveur.
+      fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        credentials: 'same-origin'
+      })
+      .then(r => {
+        if(!r.ok) throw new Error('Erreur serveur');
+        alert('Formulaire envoyé. Merci !');
+        form.reset();
+      })
+      .catch(err => {
+        console.error(err);
+        alert('Impossible d\'envoyer le formulaire pour le moment.');
+      });
     });
 
-    document.getElementById('starlinkForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        alert('Formulaire soumis avec succès !');
-    });
-</script>
+    resetBtn.addEventListener('click', () => form.reset());
+  </script>
 </body>
 </html>
